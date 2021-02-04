@@ -6,19 +6,14 @@ public class EnterVehicle : MonoBehaviour
 {
     private bool inVehicle = false;
     CarUserControl vehicleScript;
-    //public GameObject guiObj;
     GameObject player;
-    public Camera fpc, cc;
-
-
-    private CameraSwitch camswitch; // the car controller we want to use
-
+    public Camera fpc, cc;//player camera and car camera
 
     void Start()
     {
         vehicleScript = GetComponent<CarUserControl>();
         player = GameObject.FindWithTag("Player");
-        cc.enabled = false;
+        cc.enabled = false;//initialize car camera to false
 
     }
 
@@ -29,15 +24,14 @@ public class EnterVehicle : MonoBehaviour
         
         if (other.gameObject.tag == "Player" && inVehicle == false)
         {
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(KeyCode.E))//if player presses 'E'
             {
 
-                fpc.enabled = false;
-                cc.enabled = true;
-
-                print("E WAS CLICKED");
+                fpc.enabled = false;//disable first person camera
+                cc.enabled = true;//enable car camera
+                
                 player.transform.parent = gameObject.transform;
-                vehicleScript.enabled = true;
+                vehicleScript.enabled = true;//enable vehicle control script
                 player.SetActive(false);
                 inVehicle = true;
                 
@@ -48,14 +42,15 @@ public class EnterVehicle : MonoBehaviour
         if (other.gameObject.tag == "Player" && inVehicle == true)
         {
 
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.F))//if player presses 'F' - to exit vehicle
             {
        
                 player.transform.parent = gameObject.transform;
-                vehicleScript.enabled = false;
+                vehicleScript.enabled = false;//disable vehicle control script
                 player.SetActive(true);
                 inVehicle = false;
-                fpc.enabled = true;
+
+                fpc.enabled = true;//i dont think this is applied here
                 cc.enabled = false;
 
 
@@ -66,9 +61,9 @@ public class EnterVehicle : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")
-        {
-            fpc.enabled = true;
-            cc.enabled = false;
+        {//on trying to exit trigger space
+            fpc.enabled = true;//enable player camera
+            cc.enabled = false;//disable car camera
         }
     }
     void Update()
